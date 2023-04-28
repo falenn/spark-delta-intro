@@ -26,4 +26,18 @@ print(f"DF Dimensions: {(rows,cols)}")
 df.createOrReplaceTempView("AAPL")
 spark.sql("SELECT COUNT(*) from AAPL").show()
 
+# Find closing < 200 and openning > 200
+# Notice the & for AND.  | would be used for OR.  Also, notice the parenthesis for grouping
+df.filter( (df['Close'] < 200 ) & (df['Open'] > 200)).show()
+
+# let's get a single record as DATA - Collect is used to get data back
+# Returns lists of Row objects
+result = df.filter(df['Low'] == 197.16).collect()
+# Print the list
+print(f"Results: {result}")
+# Get a row
+row = result[0]
+# process as a Dictionary
+print(f"Volume Traded: {row.asDict()['Volume']}")
+
 
