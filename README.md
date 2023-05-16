@@ -2,6 +2,9 @@
 Spark-avro jar:
 https://mvnrepository.com/artifact/org.apache.spark/spark-avro_2.13/3.4.0
 
+# this one works
+https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.12/2.4.8/spark-avro_2.12-2.4.8.jar
+
 To run with spark-submit:
 
 ./bin/spark-submit --packages org.apache.spark:spark-avro_2.13:3.4.0

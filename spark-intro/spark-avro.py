@@ -29,15 +29,14 @@ schema = reader.meta
 print(schema)
 
 
-
-
-
-# Read in the data
-#df = spark.read.format("avro").load(filename)
+# Load avro into spark dataframe
+df = spark.read.format("avro").load(filename)
 
 #Show some data
 #df.show()
 
 #Show the schema
-#df.printSchema()
+df.printSchema()
+
+df.show(11)
 
