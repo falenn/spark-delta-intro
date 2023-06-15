@@ -33,6 +33,11 @@ function spark_submit() {
 }
 
 # Setup pyenv
+
+## Install PyEnv
+curl https://pyenv.run | bash
+
+## Add the following to ~/.bashrc
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
