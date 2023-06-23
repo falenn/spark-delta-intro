@@ -1,0 +1,14 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.imwiz.spark-tutorial</groupId>
+  <artifactId>spark</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+	      <artifactId>spark-avro_2.13</artifactId>
+              <version>3.4.0</version>
+	    </dependency>
+    </dependencies>
+</project>

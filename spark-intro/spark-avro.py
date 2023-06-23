@@ -13,7 +13,7 @@ from pyspark.sql.functions import format_number
 
 spark = SparkSession.builder.appName('groupby').getOrCreate()
 
-filename = "/home/cloud_user/dev/data/states_2022-06-27-00.avro"
+filename = "/home/cloud_user/dev/spark-delta-intro/data/states_2022-06-27-00.avro"
 
 # Get Avro Schema
 reader = DataFileReader(open(filename,"rb"),avro.io.DatumReader())
@@ -38,5 +38,5 @@ df = spark.read.format("avro").load(filename)
 #Show the schema
 df.printSchema()
 
-df.show(11)
+df.show(1)
 

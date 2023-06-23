@@ -44,4 +44,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
  eval "$(pyenv init -)"
 fi
 
-
+Install Maven
+```
+mkdir -p ~/apps/maven
+cd ~/aps/maven
+wget -O maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
+tar -xvf maven.tar.gz
+ln -s ~/apps/maven/apache-maven-3.9.2 current
+```
