@@ -26,8 +26,11 @@ delta_table = DeltaTable.forPath(spark, "/tmp/delta-table/flightpath/states")
 
 df_latest = delta_table.toDF()
 
+print(f"{df_latest.schema}")
+
 # get a sample
-df_latest.select(["callsign","vertrate","onground","lastcontact","heading","velocity"]).show(5)
+#df_latest.select(["callsign","vertrate","onground","lastcontact","heading","velocity"]).show(5)
+
 
 # get total record count
 print(f"Total records: {df_latest.count()}")
@@ -37,6 +40,14 @@ delta_table.history().select("version", "timestamp", "operation", "operationPara
 
 # select now using sparkSQL.  
 df_latest.createOrReplaceTempView("states_latest")
+
+spark.sql(
+    """
+    SELECT * from states_latest
+    LIMIT(5)
+    """
+    ).show()
+
 result = spark.sql(
     """
     SELECT callsign, vertrate from states_latest
@@ -50,8 +61,7 @@ result = spark.sql(
 print(f"rapid fliers: {result.count()}")
 
 # render flights in histogram by vertrate
-df_latest.filter(df_latest['vertrate'] >= 35 ).groupBy("callsign").agg(max("vertrate"),avg("velocity")).show()
-
+df_latest.filter(df_latest['vertrate'] >= 35).filter(df_latest['vertrate'] != "NaN").groupBy("callsign").agg(max("vertrate"),avg("velocity")).show()
 
 
 # another select
@@ -63,6 +73,11 @@ spark.sql(
    AND vertrate > 35 or vertrate < -35
    ORDER by callsign asc
    """
-).show(10,false)
+).show(10)
 
-
+# distinct callsigns
+spark.sql(
+    """
+    SELECT count(distinct callsign) from states_latest
+    """
+    ).show()
