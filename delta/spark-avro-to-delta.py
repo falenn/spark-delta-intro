@@ -3,6 +3,7 @@
 # tool for easy schema extraction
 #import fastavro
 
+import argparse
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
 from avro.io import DatumReader, DatumWriter
@@ -21,7 +22,17 @@ my_packages = ["io.delta:delta-core_2.12:2.1.0"]
 spark = configure_spark_with_delta_pip(builder,extra_packages=my_packages).getOrCreate()
 
 # path to avro file
-avro_data = "/home/cloud_user/dev/spark-delta-intro/data/states_2022-06-27-00.avro"
+parser = argparse.ArgumentParser()
+parser.add_argument("--inavro", help="Path and file to avro data")
+parser.add_argument("--deltatable", help="Path to the delta table")
+args = parser.parse_args()
+if args.inavro:
+        avro_data = args.inavro
+if args.deltatable:
+        delta_table = args.deltatable
+
+print(f"Input avro: {avro_data}")
+print(f"Output delta table: {delta_table}")
 
 # Get Avro Schema
 reader = DataFileReader(open(avro_data,"rb"),avro.io.DatumReader())
@@ -48,7 +59,7 @@ df.printSchema()
 
 df.show(1)
 
-df.write.format("delta").mode("overwrite").save("/tmp/delta-table/flightpath/states")
+df.write.format("delta").mode("append").save(delta_table)
 
 # Copy contents of Avro file into a Delta table
 #deltaTable = DeltaTable.forPath(spark,"/tmp/delta-table/flightpath/states")

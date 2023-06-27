@@ -54,6 +54,8 @@ function spark_submit() {
 Notice, using --packages means that I don't have to set the SPARK_EXTRA_CLASSPATH.  I could do this instead 
 if I use maven or gradle to download needed dependencies and build the classpath by hand.
 
+Also, if modifying spark-submit in this way, then do not add corresponding .conf(...) when building up the SparkSession in the actual code - conf in the code will take presidence.
+
 # Downloading Sample Data
 ## Open-Sky
 OpenSky contains a number of datasets concerning public aircraft.  The states data is available in AVRO format.
