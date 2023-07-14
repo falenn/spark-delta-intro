@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env pytho
+
 
 import pyspark
 from delta.tables import *
@@ -17,7 +18,7 @@ spark = configure_spark_with_delta_pip(builder).getOrCreate()
 spark.sparkContext.setLogLevel("WARN")
 
 # Another way to load a table
-delta_table = DeltaTable.forPath(spark, "/tmp/delta-table/flightdata/states")
+delta_table = DeltaTable.forPath(spark, "/tmp/delta/states")
 
 # update every even value by adding 100 to it
 #deltaTable.update(
