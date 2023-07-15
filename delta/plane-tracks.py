@@ -53,7 +53,7 @@ print(f"Distinct Callsigns: {result.count()}")
 result.show(10)
 
 # Adding a space in the query for callsign - looks like need to clean the data
-query = "SELECT * FROM states_latest WHERE callsign like \"{} \" ORDER BY time ASC".format(callsign)
+query = "SELECT * FROM states_latest WHERE callsign like \"{}%\" ORDER BY time ASC".format(callsign)
 print(f"SQL Statement: {query}")
 
 result = spark.sql(query)
@@ -62,5 +62,5 @@ result = spark.sql(query)
 print(f"Number of records found for {callsign}: {result.count()}")
 
 # show some records
-result.show(truncate = False)
+result.show(result.count())
 

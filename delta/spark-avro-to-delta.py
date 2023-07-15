@@ -20,6 +20,8 @@ builder = SparkSession.builder.appName('ingest-flightdata-avro2delta') \
 #we need to config sparksession
 my_packages = ["io.delta:delta-core_2.12:2.1.0"]
 spark = configure_spark_with_delta_pip(builder,extra_packages=my_packages).getOrCreate()
+# Set logging level
+spark.sparkContext.setLogLevel("WARN")
 
 # path to avro file
 parser = argparse.ArgumentParser()
@@ -59,9 +61,14 @@ df.printSchema()
 
 df.show(1)
 
-df.write.format("delta").mode("append").save(delta_table)
+print(f"Number of records: {df.count()}")
+
+df.write.format("delta").option("parquet.bloom.filter.enabled#callsign", "true").option("parquet.bloom.filter.expected.ndv#callsign", "1000000").mode("append").save(delta_table)
+
+# save directly as parquet - snappy is the common compression option
+#df.write.format("parquet").option("compression","none").option("parquet.bloom.filter.enabled#callsign", "true").option("parquet.bloom.filter.expected.ndv#callsign", "1000000").mode("overwrite").save("/tmp/parquet")
 
 # Copy contents of Avro file into a Delta table
 #deltaTable = DeltaTable.forPath(spark,"/tmp/delta-table/flightpath/states")
 
-spark.close()
+spark.stop()
