@@ -6,6 +6,7 @@ from delta.tables import *
 from pyspark.sql.functions import sum,avg,max,min,mean,count
 from delta import *
 import argparse
+from timer import T
 
 
 # read in callsign param
@@ -48,19 +49,22 @@ df_latest.createOrReplaceTempView("states_latest")
 print(f"Searching for records for callsign: {callsign}")
 
 distinct_callsign_query = "SELECT distinct(callsign) from states_latest"
-result = spark.sql(distinct_callsign_query)
-print(f"Distinct Callsigns: {result.count()}")
+with T():
+  result = spark.sql(distinct_callsign_query)
+  print(f"Distinct Callsigns: {result.count()}")
 result.show(10)
+
 
 # Adding a space in the query for callsign - looks like need to clean the data
 query = "SELECT * FROM states_latest WHERE callsign like \"{}%\" ORDER BY time ASC".format(callsign)
 print(f"SQL Statement: {query}")
 
-result = spark.sql(query)
+with T():
+  result = spark.sql(query)
+  # Show count
+  print(f"Number of records found for {callsign}: {result.count()}")
 
-# Show count
-print(f"Number of records found for {callsign}: {result.count()}")
-
-# show some records
-result.show(result.count())
+# show all of the records
+with T():
+  result.show(result.count())
 

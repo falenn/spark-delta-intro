@@ -5,7 +5,7 @@ from delta.tables import *
 #from pyspark.sql.functions import *
 from pyspark.sql.functions import sum,avg,max,min,mean,count
 from delta import *
-
+from timer import T
 
 # init a spark app
 builder = pyspark.sql.SparkSession.builder.appName("Planes-on-Ground") \
@@ -37,7 +37,8 @@ delta_table.history().select("version", "timestamp", "operation", "operationPara
 # select now using sparkSQL.  
 df_latest.createOrReplaceTempView("states_latest")
 
-result = spark.sql(
+with T():
+  result = spark.sql(
     """
     SELECT callsign, icao24, lat, lon, onground from states_latest
     WHERE onground is true

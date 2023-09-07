@@ -1,1 +1,8 @@
 *.swp
+**/__pycache__/**
+
+# nessie
+**/metastore_db/**
+
+# derby
+**/derby.log
