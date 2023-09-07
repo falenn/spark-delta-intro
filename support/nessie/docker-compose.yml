@@ -19,3 +19,16 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - /home/cloud_user/mongodb:/data/db:rw
+
+  minioserver:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: "minioadmin"
+      MINIO_ROOT_PASSWORD: "minioadmin"
+    container_name: minio
+    volumes:
+     - /home/cloud_user/minio:/data:rw
+    command: server /data --console-address ":9001"
