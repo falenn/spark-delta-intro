@@ -1,6 +1,10 @@
 # Demo!
 https://www.dremio.com/blog/a-notebook-for-getting-started-with-project-nessie-apache-iceberg-and-apache-spark/
 
+Tutorial on Spark / Iceberg / Nessie / Dremio / MinIO
+https://www.youtube.com/watch?v=X3wfVaSQS_c&t=134s
+
+
 ## Spark Configuration
 org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.0.0
 org.projectnessie:nessie-spark-extensions-3.3_2.12:0.45.0
@@ -60,4 +64,33 @@ transactional nature of catalog metadata only.
 
 Since the interaction with Nessie is like Git, then maybe the warehouse path is temp space?
 
+## Notes on MinIo
+MinIO is S3-compatable storage  :)
+
+### Cmdline
+Install cmdline client
+```
+sudo curl -o /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
+
+sudo chmod +x /usr/local/bin/mc
+
+mc --version
+
+mc alias set myminio http://localhost:9000 minioadmin minioadmin
+```
+
+Create bucket
+```
+mc mb myminio/<bucketname>
+```
+
+Copy data 
+```
+ mc cp states_2022*.avro myminio/flightdata/states
+```
+
+List Bucket contents
+```
+mc ls myminio/
+```
 
