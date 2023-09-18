@@ -105,3 +105,18 @@ semodule -i my-docker-rules
 https://kind.sigs.k8s.io/docs/user/quick-start/#installation
 ```
 
+## kubectl
+```
+$ cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+$ sudo dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+```
