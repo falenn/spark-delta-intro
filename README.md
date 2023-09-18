@@ -99,3 +99,9 @@ audit2allow -a /var/log/audit/audit.log
 grep docker_t /var/log/audit/audit.log | audit2allow -M my-docker-rules
 semodule -i my-docker-rules
 ```
+
+# Kubernetes - KIND for lightweight functional dev
+```
+https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+```
+
