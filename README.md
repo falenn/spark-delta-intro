@@ -65,7 +65,17 @@ cat /etc/os-release
 ```
 sudo dnf check-update
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
+```
+or add repo manually:
+```
+[docker-ce]
+name=Docker-CE
+baseurl=https://download.docker.com/linux/centos/8/x86_64/stable/
+gpgcheck=0
+enabled=1
+```
+Install
+```
 sudo dnf install docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
 sudo systemctl status docker
