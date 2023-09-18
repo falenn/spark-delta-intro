@@ -107,7 +107,7 @@ https://kind.sigs.k8s.io/docs/user/quick-start/#installation
 
 ## kubectl
 ```
-$ cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
 baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
@@ -118,5 +118,5 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 exclude=kubelet kubeadm kubectl
 EOF
 
-$ sudo dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
