@@ -90,7 +90,6 @@ sudo systemctl enable docker
 ## Grant access to a user
 ```
 sudo usermod -aG docker $(whoami)
-sudo usermod -aG docker username
 ```
 
 ## Fixing SELinux issues
