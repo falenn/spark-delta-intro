@@ -125,3 +125,14 @@ sudo dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
 kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
 ```
+
+## Install Helm
+```
+sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+sudo chmod 700 get_helm.sh
+sudo ./get_helm.sh
+```
+
+## Nice k8s install writeup for RockyOS
+https://r00t.dk/post/2022/02/13/basic-kubernetes-installation-rocky-linux-rancher/
+
