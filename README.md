@@ -120,3 +120,8 @@ EOF
 
 sudo dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
+
+## run a quick, inteactive pod to ensure basic functionality
+```
+kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
+```
