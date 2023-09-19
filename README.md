@@ -100,9 +100,28 @@ grep docker_t /var/log/audit/audit.log | audit2allow -M my-docker-rules
 semodule -i my-docker-rules
 ```
 
-# Kubernetes - KIND for lightweight functional dev
+# Kubernetes
+## Nice k8s install writeup for RockyOS
+https://r00t.dk/post/2022/02/13/basic-kubernetes-installation-rocky-linux-rancher/
+
+## KIND 
+### Install
 ```
 https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+```
+or;
+```
+# For AMD64 / x86_64
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+# For ARM64
+[ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-arm64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+```
+### Create Cluster
+Cluster config - creating volume mount for data so that it persists outside of Docker / KIND on the host
+```
+
 ```
 
 ## kubectl
@@ -132,7 +151,10 @@ sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/
 sudo chmod 700 get_helm.sh
 sudo ./get_helm.sh
 ```
+## Minio S3
+We will install using Helm.  First pull down the chart to get the values.yml to configure for our dev env.
+```
 
-## Nice k8s install writeup for RockyOS
-https://r00t.dk/post/2022/02/13/basic-kubernetes-installation-rocky-linux-rancher/
+```
+
 
