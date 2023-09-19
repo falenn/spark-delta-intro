@@ -126,7 +126,7 @@ nodes:
 - role: control-plane
   extraMounts:
   - hostPath: /var/data
-    containerPath: /opt/local-path-provisioner
+    containerPath: /var/local-path-provisioner
   extraPortMappings:
   - containerPort: 9000
     hostPort: 9000
