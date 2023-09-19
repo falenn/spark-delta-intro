@@ -223,3 +223,11 @@ kubectl run --namespace default my-minio-client \
      --image docker.io/bitnami/minio-client:2023.9.13-debian-11-r2 -- /bin/bash
 ```
 
+Let's test minio and the data volume mount - data should be seen on /var/data.  Start the Minio client above.  At the prompt, run:
+```
+mc mb test   # make a bucket called test
+mc cp licenses/<one of the license files> test  # copy a file to test
+```
+Now check on the host for PVC creation in /var/data
+
+
