@@ -82,11 +82,6 @@ sudo systemctl status docker
 sudo systemctl enable docker
 ```
 
-## Modify where docker stores data
-```
-
-```
-
 ## Grant access to a user
 ```
 sudo usermod -aG docker $(whoami)
@@ -141,6 +136,17 @@ nodes:
     # optional: set the protocol to one of TCP, UDP, SCTP.
     # TCP is the default
     protocol: TCP
+```
+
+Create dir on disk for this
+```
+sudo mkdir -p /var/data
+sudo chmod 1777 /var/data
+```
+
+Create the cluster:
+```
+kind create cluster --config ~/dev/kind/cluster.yml
 ```
 
 ## kubectl
