@@ -52,7 +52,16 @@ wget -O maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apach
 tar -xvf maven.tar.gz
 ln -s ~/apps/maven/apache-maven-3.9.2 current
 ```
-
+# Install Helpers
+```
+sudo yum install tmux wget 
+```
+# Install yq - YAML Query
+```
+BINARY=yq_linux_amd64 
+LATEST=$(wget -qO- https://api.github.com/repos/mikefarah/yq/releases/latest 2>/dev/null | grep browser_download_url | grep $BINARY\"\$|awk '{print $NF}' )
+sudo wget -q $LATEST -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
+```
 # Install Docker
 
 ## RockyOS
