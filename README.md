@@ -120,8 +120,27 @@ sudo mv ./kind /usr/local/bin/kind
 ```
 ### Create Cluster
 Cluster config - creating volume mount for data so that it persists outside of Docker / KIND on the host
-```
 
+KIND uses https://github.com/rancher/local-path-provisioner for CSI storage.  We need to map the dir used out of Docker to the host for persistence.
+```
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: app-1-cluster
+nodes:
+# one node hosting a control plane
+- role: control-plane
+  extraMounts:
+  - hostPath: /var/data
+    containerPath: /opt/local-path-provisioner
+  extraPortMappings:
+  - containerPort: 9000
+    hostPort: 9000
+    # optional: set the bind address on the host
+    # 0.0.0.0 is the current default
+    listenAddress: "127.0.0.1"
+    # optional: set the protocol to one of TCP, UDP, SCTP.
+    # TCP is the default
+    protocol: TCP
 ```
 
 ## kubectl
@@ -153,8 +172,27 @@ sudo ./get_helm.sh
 ```
 ## Minio S3
 We will install using Helm.  First pull down the chart to get the values.yml to configure for our dev env.
+https://www.datree.io/helm-chart/minio-bitnami
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+mkdir -p ~/dev/charts
+cd ~/dev/charts
+helm fetch bitnami/minio --untar=true --untardir=.
+```
+Review the values.yml file so that only 1 node is needed:
+```
+mode: standalone
+...
+persistence:
+  storageClass: "" (Uses the default)
+  mountPath: /bitnami/minio/data
 ```
 
+Install minio
 ```
+helm install my-minio bitnami/minio -f ~/dev/charts/minio/values.yml
+
+```
+Use --version to specify a specific version, e.g., --version 11.2.16
 
 
