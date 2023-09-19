@@ -205,9 +205,21 @@ persistence:
 
 Install minio
 ```
-helm install my-minio bitnami/minio -f ~/dev/charts/minio/values.yml
+helm install my-minio bitnami/minio -f ~/dev/charts/minio/values.yaml
 
 ```
 Use --version to specify a specific version, e.g., --version 11.2.16
 
+Interactive minio-client container
+```
+export ROOT_USER=$(kubectl get secret --namespace default my-minio -o jsonpath="{.data.root-user}" | base64 -d)
+export ROOT_PASSWORD=$(kubectl get secret --namespace default my-minio -o jsonpath="{.data.root-password}" | base64 -d)
+
+kubectl run --namespace default my-minio-client \
+     --rm --tty -i --restart='Never' \
+     --env MINIO_SERVER_ROOT_USER=$ROOT_USER \
+     --env MINIO_SERVER_ROOT_PASSWORD=$ROOT_PASSWORD \
+     --env MINIO_SERVER_HOST=my-minio \
+     --image docker.io/bitnami/minio-client:2023.9.13-debian-11-r2 -- /bin/bash
+```
 
