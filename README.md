@@ -203,14 +203,14 @@ persistence:
   mountPath: /bitnami/minio/data
 ```
 
-Install minio
+### Install minio
 ```
 helm install my-minio bitnami/minio -f ~/dev/charts/minio/values.yaml
 
 ```
 Use --version to specify a specific version, e.g., --version 11.2.16
 
-Interactive minio-client container
+### Interactive minio-client container
 ```
 export ROOT_USER=$(kubectl get secret --namespace default my-minio -o jsonpath="{.data.root-user}" | base64 -d)
 export ROOT_PASSWORD=$(kubectl get secret --namespace default my-minio -o jsonpath="{.data.root-password}" | base64 -d)
@@ -229,5 +229,22 @@ mc mb test   # make a bucket called test
 mc cp licenses/<one of the license files> test  # copy a file to test
 ```
 Now check on the host for PVC creation in /var/data
+
+### Install Minio Client
+Install the Minio Client on the host.  We can use the port openned to k8s (9000) to connect to Minio from the client making loading of data easier.
+```
+curl https://dl.min.io/client/mc/release/linux-amd64/mc \
+  --create-dirs \
+  -o $HOME/minio-binaries/mc
+
+chmod +x $HOME/minio-binaries/mc
+export PATH=$PATH:$HOME/minio-binaries/
+
+mc --help
+```
+
+TODO 
+need to add svc config for NodePort to Minio.
+need to add svc to nodePort 30900 and then to KIND k8s up
 
 
