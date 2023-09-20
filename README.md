@@ -54,7 +54,7 @@ ln -s ~/apps/maven/apache-maven-3.9.2 current
 ```
 # Install Helpers
 ```
-sudo yum install tmux wget 
+sudo yum install tmux wget git
 ```
 # Install yq - YAML Query
 ```
