@@ -249,16 +249,19 @@ https://artifacthub.io/packages/helm/nessie/nessie
 ```
 helm repo add nessie-helm https://charts.projectnessie.org
 helm repo update
-helm repo fetch nessie-helm/nessie --untar=true --untardir=~/dev/charts
+cd ~/dev/charts
+helm fetch nessie-helm/nessie --untar=true --untardir=.
 ```
 
-Install
+### Install
 ```
 helm install --namespace nessie-ns nessie nessie-helm/nessie -f ~/dev/charts/values.yaml
 ```
 
 TODO 
+need to install Mongodb for Nessie
 need to add svc config for NodePort to Minio.
 need to add svc to nodePort 30900 and then to KIND k8s up
+checkout https://faun.pub/what-is-minio-and-how-to-configure-it-in-kubernetes-18072ac80fb2
 
 
