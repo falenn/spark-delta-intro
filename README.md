@@ -246,12 +246,67 @@ mc --help
 ## Nessie Metadata Catalog 
 https://artifacthub.io/packages/helm/nessie/nessie
 
+### Install Mongodb
+```
+helm fetch bitnami/mongodb --untar=true --untardir=$HOME/dev/charts
+```
+alter values - add usernames,passwors,databases (nessie for all three) to create an account and database at creation time.
+```
+cd $HOME/dev/charts/mongodb
+helm install mongodb bitnami/mongodb -f values.yaml
+```
+
+Result from startup
+```
+helm install mongodb bitnami/mongodb -f values.yaml
+NAME: mongodb
+LAST DEPLOYED: Wed Sep 20 16:10:00 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: mongodb
+CHART VERSION: 13.18.4
+APP VERSION: 6.0.10
+
+** Please be patient while the chart is being deployed **
+
+MongoDB&reg; can be accessed on the following DNS name(s) and ports from within your cluster:
+
+    mongodb.default.svc.cluster.local
+
+To get the root password run:
+
+    export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)                                                                                       
+
+To get the password for "nessie" run:
+
+    export MONGODB_PASSWORD=$(kubectl get secret --namespace default mongodb -o jsonpath="{.data.mongodb-passwords}" | base64 -d | awk -F',' '{print $1}')                                                                       
+
+To connect to your database, create a MongoDB&reg; client container:
+
+    kubectl run --namespace default mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:6.0.10-debian-11-r0 --command -- bash                  
+
+Then, run the following command:
+    mongosh admin --host "mongodb" --authenticationDatabase admin -u $MONGODB_ROOT_USER -p $MONGODB_ROOT_PASSWORD                                                                                                                
+
+To connect to your database from outside the cluster execute the following commands:
+
+    kubectl port-forward --namespace default svc/mongodb 27017:27017 &
+    mongosh --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
+```
+
+
+### Fetch Nessie
 ```
 helm repo add nessie-helm https://charts.projectnessie.org
 helm repo update
 cd ~/dev/charts
 helm fetch nessie-helm/nessie --untar=true --untardir=.
 ```
+
+### Modify values.yaml
 
 ### Install
 ```
