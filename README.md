@@ -33,16 +33,67 @@ function spark_submit() {
 }
 
 # Setup pyenv
+https://realpython.com/intro-to-pyenv/#installing-pyenv
 
 ## Install PyEnv
-curl https://pyenv.run | bash
+### Setup to install alternate Python versions
+```
+sudo yum install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite \
+  sqlite-devel openssl-devel xz xz-devel libffi-devel
+```
 
-## Add the following to ~/.bashrc
+### Using the PyEnv installer
+```
+curl https://pyenv.run | bash
+```
+### Add the following to ~/.bashrc
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
  eval "$(pyenv init -)"
 fi
+
+### Using PyEnv to install Python
+See available versions
+```
+pyenv install --list | grep " 3\.[678]"
+```
+Select and install:
+```
+pyenv install -v 3.7.2
+```
+
+## Using Pyenv
+### See available versions
+```
+pyenv versions
+```
+
+### Create a virtual env with a given version
+
+pyenv virtualenv <python_version> <environment_name>
+```
+pyenv virtualenv 3.9.17 iceberg_3-5
+```
+
+Switch to that virtualenv
+```
+pyenv local iceberg_3-5
+```
+This uses the .python-version file in the local dir
+eval "$(pyenv virtualenv-init -)"   <-- this should be in your .bash_profile
+
+If the python version is not changing, you probably have a global virtualenv set.  Deactivate it:
+```
+pyenv versions
+```
+notice the one that is marked with an astrick.  Deactivate it.
+```
+pyenv deactivate (currently active env)
+```
+
+
+
 
 # Install Maven
 ```
