@@ -243,6 +243,20 @@ export PATH=$PATH:$HOME/minio-binaries/
 mc --help
 ```
 
+## Nessie Metadata Catalog 
+https://artifacthub.io/packages/helm/nessie/nessie
+
+```
+helm repo add nessie-helm https://charts.projectnessie.org
+helm repo update
+helm repo fetch nessie-helm/nessie --untar=true --untardir=~/dev/charts
+```
+
+Install
+```
+helm install --namespace nessie-ns nessie nessie-helm/nessie -f ~/dev/charts/values.yaml
+```
+
 TODO 
 need to add svc config for NodePort to Minio.
 need to add svc to nodePort 30900 and then to KIND k8s up
