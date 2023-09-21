@@ -41,7 +41,7 @@ if [ $? -eq 0 ]; then
         $REPO_AND_IMAGE
 
   # attach to the new container
-  sudo docker attach -it $CONTAINER_NAME
+  #sudo docker attach $CONTAINER_NAME
 
   # follow stdout
   #docker logs -f $CONTAINER_NAME
