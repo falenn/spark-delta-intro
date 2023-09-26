@@ -364,6 +364,44 @@ helm fetch nessie-helm/nessie --untar=true --untardir=.
 helm install --namespace nessie-ns nessie nessie-helm/nessie -f ~/dev/charts/values.yaml
 ```
 
+## Harbor
+### Install
+```
+cd ~/dev/charts
+helm fetch bitnami/harbor --untar=true --untardir=.
+helm install harbor bitnami/harbor -f values.yaml -n harbor
+```
+
+Output:
+```
+helm install harbor bitnami/harbor -f values.yaml -n harbor
+NAME: harbor
+LAST DEPLOYED: Tue Sep 26 14:16:15 2023
+NAMESPACE: harbor
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: harbor
+CHART VERSION: 18.0.1
+APP VERSION: 2.9.0
+
+** Please be patient while the chart is being deployed **
+
+1. Get the Harbor URL:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace harbor -w harbor'
+    export SERVICE_IP=$(kubectl get svc --namespace harbor harbor --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")                                                                               
+    echo "Harbor URL: http://$SERVICE_IP/"
+
+2. Login with the following credentials to see your Harbor application
+
+  echo Username: "admin"
+  echo Password: $(kubectl get secret --namespace harbor harbor-core-envvars -o jsonpath="{.data.HARBOR_ADMIN_PASSWORD}" | base64 -d)
+```
+
+
 TODO 
 need to install Mongodb for Nessie
 need to add svc config for NodePort to Minio.
