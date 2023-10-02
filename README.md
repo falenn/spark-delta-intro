@@ -364,7 +364,19 @@ helm fetch nessie-helm/nessie --untar=true --untardir=.
 helm install --namespace nessie-ns nessie nessie-helm/nessie -f ~/dev/charts/values.yaml
 ```
 
-## Harbor
+## Spark-Operator
+We use the spark-operator to spin up a driver and executors for our spark applications within K8S.
+https://www.youtube.com/watch?v=HaSHhYPIAhU for more info.
+I feel that this is OLD. :(  I really wanted declarative scheduling...
+
+## Bitnami/Spark
+https://github.com/bitnami/charts/tree/main/bitnami/spark
+Alternative to above - this is popular
+
+
+
+## Harbor 
+@STILL WORKING ON THIS
 ### Install
 ```
 cd ~/dev/charts
