@@ -432,3 +432,9 @@ Host k8s
     LocalForward 39883 127.0.0.1:39883  # kubectl
 ```
 
+## K8s lightweight metrics API
+```
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm install my-metrics-server metrics-server/metrics-server --version 3.11.0
+```
+
