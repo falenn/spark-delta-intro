@@ -373,6 +373,26 @@ I feel that this is OLD. :(  I really wanted declarative scheduling...
 https://github.com/bitnami/charts/tree/main/bitnami/spark
 Alternative to above - this is popular
 
+### Test Spark Job
+We will run a test job on the k8s spark cluster using the following bash script
+```
+#!/usr/bin/env bash
+
+# Running spark-submit to run a Spark job on k8s using bitnami/spark chart.
+
+PY_FILE="./spark-empty-schema.py"
+SPARK_IMAGE="falenn/iceberg-python:1.0.1"
+spark-submit \
+        --conf "spark.sql.session.timeZone=UTC" \
+        --deploy-mode "cluster" \
+        --name "k8s-helloworld" \
+        --conf spark.executor.instances="2" \
+        --conf spark.kubernetes.container.image="$SPARK_IMAGE" \
+        --master k8s://https://localhost:39883 \
+        $PY_FILE
+```
+The job spark-empty-schema.py is in spark-intro directory.  We will try to add the custom image we are building.
+
 
 
 ## Harbor 
@@ -437,4 +457,3 @@ Host k8s
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm install my-metrics-server metrics-server/metrics-server --version 3.11.0
 ```
-
