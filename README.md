@@ -421,4 +421,14 @@ need to add svc to nodePort 30900 and then to KIND k8s up
 checkout https://faun.pub/what-is-minio-and-how-to-configure-it-in-kubernetes-18072ac80fb2
 need to research storage / install choice for Minio.  Is it possible to install as statefulset / bare metal volumes?  Is on Ceph going to slow it down?  Other options just for Minio storage performance.
 
+# Helpers
+## ssh config
+```
+IdentityFile ~/.ssh/id_rsa
+User cloud_user
+
+Host k8s
+    Hostname <hostname running k8s api server>
+    LocalForward 39883 127.0.0.1:39883  # kubectl
+```
 
