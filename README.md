@@ -361,7 +361,7 @@ helm fetch nessie-helm/nessie --untar=true --untardir=.
 
 ### Install
 ```
-helm install --namespace nessie-ns nessie nessie-helm/nessie -f ~/dev/charts/values.yaml
+helm install --namespace nessie-ns nessie nessie-helm/nessie -f ~/dev/charts/nessie/values.yaml
 ```
 
 ## Spark-Operator
@@ -372,6 +372,67 @@ I feel that this is OLD. :(  I really wanted declarative scheduling...
 ## Bitnami/Spark
 https://github.com/bitnami/charts/tree/main/bitnami/spark
 Alternative to above - this is popular
+
+### Installing
+```
+helm repo add bitnami oci://registry-1.docker.io/bitnamicharts
+
+cd ~/dev/charts
+helm fetch bitnami/spark --untar=true -untardir=.
+
+helm install spark bitnami/spark -f ~/dev/charts/spark/values.yaml
+```
+The outcome of the install:
+```
+helm install spark bitnami/spark -f values.yaml
+NAME: spark
+LAST DEPLOYED: Sat Oct 21 20:28:07 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: spark
+CHART VERSION: 8.0.0
+APP VERSION: 3.5.0
+
+** Please be patient while the chart is being deployed **
+
+1. Get the Spark master WebUI URL by running these commands:
+
+  kubectl port-forward --namespace default svc/spark-master-svc 80:80
+  echo "Visit http://127.0.0.1:80 to use your application"
+
+2. Submit an application to the cluster:
+
+  To submit an application to the cluster the spark-submit script must be used. That script can be
+  obtained at https://github.com/apache/spark/tree/master/bin. Also you can use kubectl run.
+
+  export EXAMPLE_JAR=$(kubectl exec -ti --namespace default spark-worker-0 -- find examples/jars/ -name 'spark-example*\.jar' | tr -d '\r')                                                                                      
+
+  kubectl exec -ti --namespace default spark-worker-0 -- spark-submit --master spark://spark-master-svc:7077 \
+    --class org.apache.spark.examples.SparkPi \
+    $EXAMPLE_JAR 5
+
+** IMPORTANT: When submit an application from outside the cluster service type should be set to the NodePort or LoadBalancer. **                                                                                                 
+
+** IMPORTANT: When submit an application the --master parameter should be set to the service IP, if not, the application will not resolve the master. **
+```
+In running the first example, the jar is already on the spark worker.
+Also, when port-forwarding, I did forward to 30081:80 not, 80:80. 
+
+The example submits the job using a worker as the exec target to show the distinct DNS resolve to the master node:
+```
+kubectl exec -ti --namespace default spark-worker-0 -- (the command to run on the spark-worker-0 is to follow) spark-submit --master spark://spark-master-svc:7077 \
+    --class org.apache.spark.examples.SparkPi \
+    $EXAMPLE_JAR 5
+```
+
+To scale up the number of workers:
+```
+helm upgrade spark bitnami/spark --set worker.replicaCount=3
+```
+
 
 ### Test Spark Job
 We will run a test job on the k8s spark cluster using the following bash script
