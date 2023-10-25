@@ -236,6 +236,38 @@ sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/
 sudo chmod 700 get_helm.sh
 sudo ./get_helm.sh
 ```
+
+## Install Nginx Ingress
+```
+[cloud_user@2b23a275812c nginx]$ helm install nginx bitnami/nginx -f values.yaml
+NAME: nginx
+LAST DEPLOYED: Wed Oct 25 04:11:19 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 15.3.1
+APP VERSION: 1.25.2
+
+** Please be patient while the chart is being deployed **
+NGINX can be accessed through the following DNS name from within your cluster:
+
+    nginx.default.svc.cluster.local (port 80)
+
+To access NGINX from outside the cluster, follow the steps below:
+
+1. Get the NGINX URL by running these commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w nginx'
+
+    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services nginx)
+    export SERVICE_IP=$(kubectl get svc --namespace default nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+```
+
 ## Minio S3
 We will install using Helm.  First pull down the chart to get the values.yml to configure for our dev env.
 https://www.datree.io/helm-chart/minio-bitnami
