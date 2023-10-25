@@ -237,7 +237,50 @@ sudo chmod 700 get_helm.sh
 sudo ./get_helm.sh
 ```
 
-## Install Nginx Ingress
+## Hashicorp Vault
+We want a central location for Certificate management.  Vault is a FIPS-certified cryptographic store with other features much like an HSM
+
+### Installation
+https://developer.hashicorp.com/vault/docs/platform/k8s/helm
+We will use Helm to install Vault within K8s
+
+Add the repo
+```
+helm repo add hashicorp https://helm.releases.hashicorp.com
+```
+
+Search the repo for latest releases
+```
+helm search repo hashicorp/vault
+```
+or all releases
+```
+helm search repo hashicorp/vault -l
+```
+
+Fetch the chart
+```
+helm fetch vault  hashicorp/vault --untar=true --untardir=/home/cloud_user/dev/charts
+```
+
+Install vault after values.yaml mods
+```
+cd /home/cloud_user/dev/charts/vault
+helm install vault  hashicorp/vault -f values.yaml
+```
+
+### Creating a CA
+```
+
+```
+### PKI Certificate management within K8s
+
+
+## Nginx Ingress
+We want an ingress controller so that we do not have to open NodePorts for every service, instead, using URL rewriting, we can place them behind
+one URL.
+There are other features following this action.
+### Install
 ```
 [cloud_user@2b23a275812c nginx]$ helm install nginx bitnami/nginx -f values.yaml
 NAME: nginx
