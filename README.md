@@ -188,6 +188,18 @@ nodes:
   - hostPath: /var/data
     containerPath: /var/local-path-provisioner
   extraPortMappings:
+  - containerPort: 80
+    hostPort: 30080
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 9000
+    hostPort: 30900
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 9001
+    hostPort: 30901
+    listenAddress: "127.0.0.1"
+    protocol: TCP
   - containerPort: 9000
     hostPort: 9000
     # optional: set the bind address on the host
